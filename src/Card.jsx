@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-function Card() {
-    const [isFlipped, setFlipped] = useState(false);
+function Card({ image }) {
+  const [isFlipped, setFlipped] = useState(false);
 
-    function handleClick () {
-        setFlipped(!isFlipped);
-        console.log(isFlipped);
-    }
+  function flipCard() {
+    setFlipped(!isFlipped);
+  }
 
-    return (
-        <div className="card" onClick={handleClick}>
-            <div className={isFlipped ? "card-inner flipped" : "card-inner"}>
-                <div className="card-front"></div>
-                <div className="card-back"></div>
-            </div>
+  return (
+    <div className="card" onClick={flipCard}>
+      <div className={isFlipped ? "card-inner flipped" : "card-inner"}>
+        <div className="card-front"></div>
+        <div className="card-back">
+          {isFlipped && <img src={image} alt="card" />}
         </div>
-    );
+      </div>
+    </div>
+  );
 }
+
 export default Card;

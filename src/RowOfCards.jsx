@@ -1,27 +1,19 @@
-import React from "react";
-import "./styles.css"
-import Card from "./Card.jsx"
+import React , {useEffect, useState} from "react";
+import "./styles.css";
+import Card from "./Card.jsx";
 
-function RowOfCards() {
-  
-  return (
-    <div className="row">
-      <div className="column">
-        <Card />
+function RowOfCards({ numColumns, halfArray }) {
+ 
+  //creates an array with length of numColumns, where each element is a div with index as key.
+  const columns = Array.from({ length: numColumns }, (_, index) => {
+    return (
+      <div key={index} className="column">
+        <Card image={halfArray[index]} />
       </div>
-      <div className="column">
-        <Card />
-      </div>
-      <div className="column">
-        <Card />
-      </div>
-      <div className="column">
-        <Card />
-      </div>
-      <div className="column">
-        <Card />
-      </div>
-    </div>
-  )
+    );
+  });
+
+  return <div className="row">{columns}</div>;
 }
+
 export default RowOfCards;
