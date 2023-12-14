@@ -9,11 +9,10 @@ import raccoon from "./animals/raccoon.png";
 import fox from "./animals/fox.png";
 
 function App() {
- 
   const [images, setImages] = useState([]);
-  //to track the cards that have been flipped by the player
   const [openCards, setOpenCards] = useState([]);
-
+  const [shouldFlipBack, setShouldFlipBack] = useState(false);
+  const [disabledCards, setDisabledCards] = useState([]);
   const imageArray = [
     {type: "penguin", image: penguin},
     {type: "penguin", image: penguin},
@@ -30,23 +29,29 @@ function App() {
   useEffect(() => {
     setImages((prevImages) => shuffleImages(prevImages));
   }, []);
-
+  
   useEffect(() => {
     if (openCards.length === 2) {
       checkIfMatch();
-     
+      setOpenCards([]);
     }
   }, [openCards]);
-  
+
   function checkIfMatch() {  
-      if (openCards[0] === openCards[1]) {
-        console.log("match");
-        setOpenCards([]);
-      } else {
-          console.log("inte match");
-          setOpenCards([]);
-      }
-    console.log(openCards);
+    if (openCards[0] === openCards[1]) {
+      console.log("match");
+      setDisabledCards(()=> [...disabledCards, openCards]);
+      setShouldFlipBack(false);
+
+    } else {
+        console.log("inte match");
+        setTimeout(() => {
+          console.log(disabledCards);
+          //problemet är att alla kort som innan varit matchade också flippas tillbaka=> setshouldflipback kanske ska vara en lista med kort istälelt
+          setShouldFlipBack(true);
+        }, 1000); 
+    }
+  setShouldFlipBack(false);
   }
 
   // Fisher-Yates shuffle
@@ -66,12 +71,25 @@ function App() {
   
     return [firstHalf, secondHalf];
   }
-  return (
+  
 
+  return (
     <div>
       <h1 className="title">MEMORY game</h1>
-        <RowOfCards numColumns={5} halfArray={splitArray()[0]} openCards={openCards} setOpenCards={setOpenCards}/>
-        <RowOfCards numColumns={5} halfArray={splitArray()[1]} openCards={openCards} setOpenCards={setOpenCards}/>
+        <RowOfCards 
+          numColumns={5} 
+          halfArray={splitArray()[0]} 
+          openCards={openCards} 
+          setOpenCards={setOpenCards} 
+          shouldFlipBack={shouldFlipBack}
+          disabledCards={disabledCards}/>
+        <RowOfCards 
+          numColumns={5} 
+          halfArray={splitArray()[1]} 
+          openCards={openCards} 
+          setOpenCards={setOpenCards} 
+          shouldFlipBack={shouldFlipBack}
+          disabledCards={disabledCards}/>
     </div>
   )
 }
