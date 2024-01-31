@@ -2,11 +2,13 @@ body {
     background-color: #F3E9F3;
     font-family: futura;
 }
+
 .title {
     color: #333;
     text-align: center;
     margin-top: 80px;
 }
+
 .row {
     margin: 55px;
     display: flex;
@@ -25,7 +27,7 @@ body {
     height: 250px;
     border-radius: 10%;
     cursor: pointer;
-  }
+}
   
 .card-front:hover {
     background: #504e4e;
@@ -58,6 +60,8 @@ body {
 
 .card-back {
     transform: rotateY(180deg);
+    background-color:aliceblue;
+
 }
 .card-back img {
     width: 100%;
