@@ -1,4 +1,3 @@
-
 import React , {useEffect, useState} from "react";
 import "./styles.css";
 import RowOfCards from "./RowOfCards.jsx";
@@ -40,18 +39,21 @@ function App() {
   function checkIfMatch() {  
     if (openCards[0] === openCards[1]) {
       console.log("match");
-      setDisabledCards(()=> [...disabledCards, openCards]);
+      setDisabledCards(()=> [...disabledCards, openCards[0]]);
       setShouldFlipBack(false);
 
     } else {
         console.log("inte match");
+        //För att lösa om du trycker på 3 kort snabbt. Så disablea alla kort när två kort har valts.
+        //När timern är över så enable alla kort igen.
         setTimeout(() => {
           console.log(disabledCards);
-          //problemet är att alla kort som innan varit matchade också flippas tillbaka=> setshouldflipback kanske ska vara en lista med kort istälelt
           setShouldFlipBack(true);
         }, 1000); 
+        //Har ska du enablea alla kort
+
     }
-  setShouldFlipBack(false);
+    setShouldFlipBack(false);
   }
 
   // Fisher-Yates shuffle
