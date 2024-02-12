@@ -37,15 +37,10 @@ function App() {
     console.log(openCards)
   }, [openCards]);
 
-  useEffect(() => {
-    if (disabledCards.length === imageArray.length/2) {
-      setGameWon(true);
-      console.log("end game");
-    }
-  }, [disabledCards]);
+ 
 
   function checkIfMatch() {  
-    if (openCards[0] === openCards[1] && openCards[0].id != openCards[1].id) {
+    if (openCards[0] === openCards[1]) {
       console.log("match");
       setDisabledCards(()=> [...disabledCards, openCards[0]]);
       //setShouldFlipBack(false);
