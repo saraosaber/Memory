@@ -6,9 +6,7 @@ function RowOfCards({ numColumns, halfArray, setOpenCards, openCards, shouldFlip
   
   // creates an array with length of numColumns, where each element is a div with index as key.
   const columns = Array.from({ length: numColumns }, (_, index) => {
-    const card = halfArray[index];
-    console.log(shouldFlipBack)
-    
+    const card = halfArray[index];    
     return (
       <div key={index} className="column">
         {card !== undefined ? (

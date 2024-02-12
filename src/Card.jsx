@@ -4,21 +4,24 @@ import "./styles.css";
 function Card({card, setOpenCards, openCards, shouldFlipBack, disabledCards}) {
   const [isFlipped, setFlipped] = useState(false);
 
+  useEffect( () => {
+    // om listan disabledcards inte innehåller kortets typ ska kortet flippas tillbaka raccoon etc
+    async function flipBack(){
+      if (!disabledCards.includes(card.type)) {
+        setTimeout(() => {
+          setFlipped(false);
+        }, 500);
+      }
+    }
+    flipBack();
+  }, [shouldFlipBack]); //denna flippar kort som ej ska flippas om den väljs snabbt nog
+
   function flipCard() {
-    if (!disabledCards.includes(card.type)) {
+    if (!disabledCards.includes(card.type) && openCards.length < 2) {
       setFlipped(!isFlipped);
       setOpenCards(()=> [...openCards, card.type]);
     }
   }
-  useEffect(() => {
-    // om listan disabledcards inte innehåller kortets typ ska kortet flippas tillbaka raccoon etc
-    if (!disabledCards.includes(card.type)) {
-      setTimeout(() => {
-        setFlipped(false);
-      }, 500); // Adjust the delay as needed
-    }
-  }, [shouldFlipBack]);
-
   return (
     <div className="card" onClick={flipCard}>
       <div className={isFlipped ? "card-inner flipped" : "card-inner"}>

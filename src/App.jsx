@@ -11,18 +11,18 @@ function App() {
   const [images, setImages] = useState([]);
   const [openCards, setOpenCards] = useState([]);
   const [shouldFlipBack, setShouldFlipBack] = useState(false);
-  const [disabledCards, setDisabledCards] = useState([]);
+  const [disabledCards, setDisabledCards] = useState([]);  
   const imageArray = [
-    {type: "penguin", image: penguin},
-    {type: "penguin", image: penguin},
-    {type: "snail", image: snail},
-    {type: "snail", image: snail},
-    {type: "chicken", image: chicken},
-    {type: "chicken", image: chicken},
-    {type: "raccoon", image: raccoon},
-    {type: "raccoon", image: raccoon},
-    {type: "fox", image: fox},
-    {type: "fox", image: fox}
+    {type: "penguin", image: penguin, id: 1},
+    {type: "penguin", image: penguin, id: 2},
+    {type: "snail", image: snail, id: 1},
+    {type: "snail", image: snail, id: 2},
+    {type: "chicken", image: chicken, id: 1},
+    {type: "chicken", image: chicken, id: 2},
+    {type: "raccoon", image: raccoon, id: 1},
+    {type: "raccoon", image: raccoon, id: 2},
+    {type: "fox", image: fox, id: 1},
+    {type: "fox", image: fox, id: 2}
   ];
 
   useEffect(() => {
@@ -32,31 +32,38 @@ function App() {
   useEffect(() => {
     if (openCards.length === 2) {
       checkIfMatch();
-      setOpenCards([]);
+      console.log(openCards[0] + openCards[1])
     }
+    console.log(openCards)
   }, [openCards]);
 
+  useEffect(() => {
+    if (disabledCards.length === imageArray.length/2) {
+      setGameWon(true);
+      console.log("end game");
+    }
+  }, [disabledCards]);
+
   function checkIfMatch() {  
-    if (openCards[0] === openCards[1]) {
+    if (openCards[0] === openCards[1] && openCards[0].id != openCards[1].id) {
       console.log("match");
       setDisabledCards(()=> [...disabledCards, openCards[0]]);
+      //setShouldFlipBack(false);
       setShouldFlipBack(false);
+      setOpenCards([]);
 
     } else {
-        console.log("inte match");
-        //För att lösa om du trycker på 3 kort snabbt. Så disablea alla kort när två kort har valts.
-        //När timern är över så enable alla kort igen.
+        console.log("not match");
         setTimeout(() => {
-          console.log(disabledCards);
-          setShouldFlipBack(true);
+        setShouldFlipBack(true);
         }, 1000); 
-        //Har ska du enablea alla kort
-
+        setShouldFlipBack(false);
+        setTimeout(() => {
+        setOpenCards([]);        
+        }, 1200)
     }
-    setShouldFlipBack(false);
   }
 
-  // Fisher-Yates shuffle
   function shuffleImages() {
     let copy = [...imageArray];
     for (let i = copy.length - 1; i > 0; i--) {
@@ -74,7 +81,6 @@ function App() {
     return [firstHalf, secondHalf];
   }
   
-
   return (
     <div>
       <h1 className="title">MEMORY game</h1>
